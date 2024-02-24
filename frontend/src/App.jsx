@@ -1,8 +1,18 @@
 import { Button, Form, Input } from "antd";
 
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/v1/auth/all").then((data) => {
+      setData(data.data);
+      console.log(data.data);
+    });
+  }, []);
+
   const onFinish = (values) => {
     console.log("Success:", values);
     axios.post(
@@ -66,6 +76,10 @@ function App() {
           </Button>
         </Form.Item>
       </Form>
+
+      {data.map((item) => (
+      <h1>{item.text}</h1>
+      ))}
     </>
   );
 }
